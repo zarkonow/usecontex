@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+
 import './App.css';
+import {createContext, useState} from "react";
+
+
+ export const CurrencyContext = createContext('USD')
 
 function App() {
+
+     const [currency, setCurrency] = useState('USD')
+
+    const updateCurrency = () => {
+         setCurrency('EURO')
+    }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+
+      <CurrencyContext.Provider value={{currency, updateCurrency}}>
+        <Payment />
+
+          <button onClick={updateCurrency}>Change Currency</button>
+      </CurrencyContext.Provider>
+
+    </>
   );
 }
 
