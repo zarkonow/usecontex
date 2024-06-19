@@ -1,12 +1,13 @@
 import {useContext} from "react";
-import {CurrencyContext} from "../App";
+import {AmountContext, CurrencyContext} from "../App";
 
 
 const PayPal = () => {
 
     const currency = useContext(CurrencyContext)
+    const amount= useContext(AmountContext)
 
-    return <p>PayPal</p>
+    return <p>{currency.currency},{amount.amount}</p>
 }
 
 export default PayPal
