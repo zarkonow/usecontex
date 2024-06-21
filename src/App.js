@@ -2,6 +2,7 @@
 import './App.css';
 import {createContext, useState} from "react";
 import Payment from "./Components/Payment";
+import {CURRENCIES} from "./Utils/CurrencyUtils";
 
 
 
@@ -36,11 +37,8 @@ function App() {
             <input onInput={e=>updateAmount(e.target.value)}/>
 
           <select onChange={e => updateCurrency(e.target.value)}>
-              <option value='EUR'>EUR</option>
-              <option value='USD'>USD</option>
-              <option value='RUB'>RUB</option>
-              <option value='GBP'>GBP</option>
-
+              { Object.key={CURRENCIES}.map(currency => (
+                  <option key={currency} value={currency}>{currency}</option>))}
           </select>
 
       </>
