@@ -1,23 +1,28 @@
 
 import './App.css';
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import Payment from "./Components/Payment";
+
 import {CURRENCIES} from "./Utils/CurrencyUtils";
+import {loadUsersState} from "./Reducers/User";
+import {userReducer} from './Reducers/User'
 
 
-
-
- export const CurrencyContext = createContext('USD')
+export const CurrencyContext = createContext('USD')
  export const AmountContext=createContext(0)
 
 
 
+
 function App() {
+
+
+     const [userState, dispatch] = userReducer(userReducer, loadUsersState())
+
+
      const [currency, setCurrency] = useState('USD')
      const [amount, setAmount] = useState(0)
-     const [username, setUsername] = useState(null)
-     const [money, setMoney] = useState(null)
-    const [isUserCreated, setIsUserCreated] = useState(false)
+
 
 
 
@@ -29,11 +34,17 @@ function App() {
     }
 
     const saveUser = () => {
-        if (username === null || username.trim() === '' || money === null || isNaN(money)){
+        if (userState.username === null || userState.username.trim() === '' || userState.money === null || isNaN(userState.money)){
             return;
         }
-        setIsUserCreated(true)
+        dispatch({type: 'SET_USERNAME', payload: true})
     }
+
+    useEffect(() => {
+        if(userState.isUserCreated){
+            localStorage.setItem('userState', JSON.stringify(userState))
+        }
+    }, [userState]);
 
 
   return (
@@ -50,10 +61,10 @@ function App() {
 
 
 
-          {!isUserCreated &&
+          {!userState.isUserCreated &&
           <form>
-              <input placeholder='Enter your username' onInput={e => setUsername(e.target.value)}/>
-              <input placeholder='Enter your money' onInput={e => setMoney(parseInt(e.target.value))}/>
+              <input placeholder='Enter your username' onInput={e => dispatch({type: 'SET_USERNAME', payload: e.target.value})}/>
+              <input placeholder='Enter your money' onInput={e => dispatch({type: 'SET_MONEY', payload: e.target.value})}/>
               <button type='button' onClick={saveUser}>Kreiraj Korisnika</button>
           </form>
           }
