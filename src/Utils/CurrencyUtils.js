@@ -6,3 +6,4 @@ export const CURRENCIES = {
     GBP: 132.6,
     RUB: 89.2
 }
+
